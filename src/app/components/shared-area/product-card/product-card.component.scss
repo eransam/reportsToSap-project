@@ -1,0 +1,55 @@
+@import "../../../styles/variables/variables.scss";
+
+.image-size {
+  height: 170px;
+}
+
+p {
+  text-align: right;
+}
+.mat-card-title {
+  font-size: 16px !important;
+  text-align: right;
+}
+
+.mat-card {
+  background: $shopping-white;
+  box-shadow: none;
+}
+
+.mat-card-header {
+  display: inline-block !important;
+  color: #d51c4a;
+}
+
+.add-btn,
+.edit-btn {
+  background-color: #d51c4a;
+  color: $shopping-white;
+  width: 50%;
+}
+
+.overflow {
+  width: 124px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tokef {
+  background-color: grey;
+  height: 34px;
+}
+
+.box2 {
+  display: inline-block;
+  margin: 2px;
+  border-radius: 1px;
+  text-align: center;
+  width: 273px;
+  height: 356px;
+  border: solid 1px rgb(56, 56, 56);
+  box-shadow: aqua !important;
+  margin-bottom: 19px;
+  padding-top: 3px;
+}

@@ -1,0 +1,25 @@
+<div>
+  <!-- יוצרים כפתור אשר יוצר במידה והתנאים שלנו יהיו אמת-->
+  <!-- ובמידה והוא יוצג הצטוות  אליו איבנט קליק אשר יפעיל את הפונ המבוקשת -->
+  <button
+    mat-raised-button
+    *ngIf="editWasClicked && !isAddAction"
+    (click)="addProduct()"
+    class="go-to-add-product"
+  >
+    <mat-icon></mat-icon>&nbsp;הוסף מוצר
+  </button>
+  <!-- מזמנים כאן קומפוננטה במידה והתנאי יהיה אמת -->
+  <!--זהוא המשתנה שלנו בקומפוננטה הנוחכית isAddAction את הערך של addButtonClicked ובמידה והתאי הוא אמת אנו גם שולחים לה ערך למשתנה הפרופ שלה -->
+  <app-add-product
+    *ngIf="isAddAction"
+    [addButtonClicked]="isAddAction"
+  ></app-add-product>
+
+  <!-- כאן אנו קוראים לקומפוננטה ומחילים עלייה סטייל עם תנאי מסויים -->
+  <app-update-product
+    [ngStyle]="{ display: isAddAction ? 'none' : 'block' }"
+    [editProduct]="product"
+  >
+  </app-update-product>
+</div>

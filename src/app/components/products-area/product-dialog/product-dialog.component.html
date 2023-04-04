@@ -1,0 +1,31 @@
+<form #formBox="ngForm">
+  <mat-dialog-content class="textaling">
+    <input
+      #quantityBox="ngModel"
+      [(ngModel)]="quantity"
+      name="quantity"
+      type="hidden"
+    />
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="textaling">
+    <button
+      mat-dialog-close
+      [mat-dialog-close]="selectedQuantity"
+      [disabled]="formBox.invalid"
+      mat-raised-button
+      class="add-quantity"
+    >
+      &nbsp;הוסף לסל
+    </button>
+
+    <button
+      mat-raised-button
+      mat-dialog-close
+      [mat-dialog-close]="false"
+      class="add-quantity"
+    >
+      &nbsp;בטל
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,69 @@
+<div class="box2">
+  <!-- פותחים תג של קארד -->
+  <mat-card class="item-card">
+    <!-- כאן אנו שמים את תמונת המוצר -->
+    <img
+      class="image-size"
+      mat-card-image
+      [src]="productsImageUrl + product.imageName"
+      alt="item-image"
+    />
+
+    <!-- שמים את שם המוצר -->
+    <mat-card-header style="width: 100%">
+      <mat-card-title
+        style="
+          font-size: 30px !important;
+          padding-right: 20px;
+          width: 100%;
+          display: flex;
+          justify-content: right !important;
+        "
+        class="overflow"
+        title="{{ product.productname }}"
+        >{{ product.productname }}</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <p
+        style="
+          font-size: 25px !important;
+          width: 100%;
+          display: flex;
+          justify-content: right !important;
+        "
+      >
+        מחיר: {{ product.price | currency : "ILS" }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button
+        (click)="addProduct(product)"
+        mat-raised-button
+        class="add-btn"
+        *ngIf="role === userRole"
+      >
+        בחר
+      </button>
+
+
+      <button
+        (click)="deleteProduct(product)"
+        mat-raised-button
+        class="delete-btn"
+        *ngIf="role === adminRole"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button
+        (click)="editProduct(product)"
+        mat-raised-button
+        class="edit-btn"
+        *ngIf="role === adminRole"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

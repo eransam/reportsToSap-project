@@ -1,0 +1,36 @@
+/* Message box styles */
+.message-box {
+    background-color: #f8e9a1;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: #333;
+    font-family: 'Open Sans', sans-serif;
+    margin: 180px auto;
+    max-width: 500px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-50%);
+  }
+  
+  .message-box h2 {
+    font-size: 2.2rem;
+    margin-top: 0;
+  }
+  
+  .message-box p {
+    font-size: 1.2rem;
+  }
+  
+  .message-box.success {
+    background-color: #a1f8d3;
+  }
+  
+  .message-box.error {
+    background-color: #f8a1a1;
+  }
+  
+  .message-box.show {
+    transform: translateY(0);
+  }
+  

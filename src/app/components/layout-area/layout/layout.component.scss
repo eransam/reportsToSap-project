@@ -1,0 +1,31 @@
+.layout-container {
+  background-image: linear-gradient(
+    to top,
+    rgba(17, 45, 78, 0.1) 77%,
+    rgba(196, 181, 20, 0.8) 90%
+  );
+  background-color: white;
+  display: grid;
+  height: 100%;
+  box-sizing: border-box;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 10% 85% max-content;
+  background-color: white;
+}
+
+header,
+footer {
+  grid-column: span 6;
+  
+}
+
+main {
+  grid-column: span 6;
+  overflow: auto;
+}
+
+@media only screen and (max-width: 700px) {
+  .layout-container {
+    grid-template-rows: 13% 75% 12%;
+  }
+}

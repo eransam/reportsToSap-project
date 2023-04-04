@@ -1,0 +1,31 @@
+<div class="item-cart" *ngIf="item">
+  <div class="item-image">
+    <img [src]="productsImageUrl + item.imageName" />
+  </div>
+  <div class="item-desc">
+    <ng-container *ngIf="router.url === '/order'">
+      <span
+        class="item-name"
+        [innerHTML]="item.productname | highlightSearch : search"
+      ></span>
+    </ng-container>
+    <ng-container *ngIf="router.url !== '/order'">
+      <span class="item-name">{{ item.productname }}</span>
+    </ng-container>
+    <br />
+    {{ item.price | currency : "ILS" }} X כמות: {{ item.quantity }}
+    <!-- <br />
+        כמות: {{item.quantity}} -->
+    <br />
+    סה''כ': <b>{{ item.quantity * item.price | currency : "ILS" }}</b>
+  </div>
+
+  <div class="item-actions">
+    <img
+      class="delete"
+      src="/assets/images/delete.jpg"
+      *ngIf="fromShopPage"
+      (click)="deleteThisItem(item.productId, item.cartId)"
+    />
+  </div>
+</div>

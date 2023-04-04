@@ -1,0 +1,80 @@
+<div class="container my-3 searchRepForm">
+  <form
+    class="form-inline searchRepForm"
+    (ngSubmit)="add()"
+    [formGroup]="DetailsForm"
+  >
+    <div class="form-group mr-2">
+      <label for="year-select" class="mr-2"> בחר שנה: </label>
+      <select
+        id="year-select"
+        name="year"
+        class="form-control"
+        [(ngModel)]="selectedYear"
+        [formControl]="yearInput"
+      >
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <!-- add more years as needed -->
+      </select>
+    </div>
+
+    <div class="form-group mr-2">
+      <label for="month-select" class="mr-2"> :בחר חודש </label>
+      <select
+        id="month-select"
+        name="month"
+        class="form-control"
+        [(ngModel)]="selectedMonth"
+        [formControl]="monthInput"
+      >
+        <option value="1">ינואר</option>
+        <option value="2">פברואר</option>
+        <option value="3">מרץ</option>
+        <option value="4">אפריל</option>
+        <option value="5">מאי</option>
+        <option value="6">יוני</option>
+        <option value="7">יולי</option>
+        <option value="8">אוגוסט</option>
+        <option value="9">ספטמבר</option>
+        <option value="10">אוקטובר</option>
+        <option value="11">נובמבר</option>
+        <option value="12">דצמבר</option>
+      </select>
+    </div>
+
+    <div class="form-group mr-2">
+      <label for="username-input" class="mr-2"> בחר עובד: </label>
+      <input
+        [formControl]="usernameInput"
+        id="username-input"
+        name="username"
+        type="text"
+        class="form-control mr-2"
+        [(ngModel)]="username"
+        [formControl]="usernameControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+          {{ user }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+
+    <div class="form-group mr-2">
+      <label for="department-checkbox" class="mr-2">הצג חיפוש מורחב:</label>
+      <input
+        id="department-checkbox"
+        name="department"
+        type="checkbox"
+        class="form-check-input"
+        [formControl]="selectedDepartmentControl"
+        [(ngModel)]="selectedDepartment"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+</div>

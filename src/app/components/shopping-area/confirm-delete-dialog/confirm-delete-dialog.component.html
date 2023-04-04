@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>אשר מחיקה</h2>
+<mat-dialog-content>
+  <p *ngIf="data.action === 'remove'">אתה בטוח שאתה רוצה למחוק פריט זה?</p>
+  <p *ngIf="data.action === 'removeAll'">
+    אתה בטוח שאתה רוצה למחוק את כל הפריטים מהסל?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    class="delete-btn"
+    mat-raised-button
+    color="primary"
+    mat-dialog-close
+    [mat-dialog-close]="true"
+  >
+    אשר מחיקה
+  </button>
+  <button
+    class="delete-btn"
+    mat-raised-button
+    color="primary"
+    mat-dialog-close
+    [mat-dialog-close]="false"
+  >
+    בטל מחיקה
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,28 @@
+<app-search
+  style="display: none"
+  *ngIf="
+    user &&
+    (router.url === '/shopping' ||
+      router.url === '/order' ||
+      router.url === '/admin-home')
+  "
+></app-search>
+<div class="product-list-container">
+  <img
+    *ngIf="!products"
+    class="loading"
+    src="/assets/images/shopping-loader.gif"
+  />
+
+  <app-product-card
+    *ngFor="let p of products"
+    (clearSearchEmit)="clearSearch()"
+    [FuncToDeleteSearchBar]="clearSearch"
+    [product]="p"
+    [role]="role"
+    (edit)="editProduct($event)"
+    (add)="addProduct($event)"
+    (addToDelete)="deleteProduct($event)"
+    (runClearSearch)="clearSearch()"
+  ></app-product-card>
+</div>

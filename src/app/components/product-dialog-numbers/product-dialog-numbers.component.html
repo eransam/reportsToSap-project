@@ -1,0 +1,45 @@
+<form #formBox="ngForm">
+  <h2 mat-dialog-title class="textaling">בחר כמות</h2>
+  <mat-dialog-actions class="textaling">
+    <button
+      mat-icon-button
+      mat-dialog-close
+      [mat-dialog-close]="false"
+      class="bthClose add-quantity"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
+  <mat-dialog-content class="textaling">
+    <button
+      mat-raised-button
+      class="add-quantity quarter"
+      (click)="selectQuantity(1)"
+    >
+      1
+    </button>
+
+    <button
+      mat-raised-button
+      class="add-quantity half"
+      (click)="selectQuantity(2)"
+    >
+      2
+    </button>
+
+    <button
+      mat-raised-button
+      class="add-quantity whole"
+      (click)="selectQuantity(3)"
+    >
+      3
+    </button>
+
+    <input
+      #quantityBox="ngModel"
+      [(ngModel)]="quantity"
+      name="quantity"
+      type="hidden"
+    />
+  </mat-dialog-content>
+</form>

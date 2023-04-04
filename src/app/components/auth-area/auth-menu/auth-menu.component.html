@@ -1,0 +1,15 @@
+<div class="mainAuth">
+  <ng-container *ngIf="!user">
+    <span> שלום אורח <mat-icon>waving_hand</mat-icon></span>
+  </ng-container>
+  <ng-container *ngIf="user">
+    <span
+      >שלום {{ user.firstName | titlecase }}
+      {{ user.lastName | titlecase }}</span
+    >
+    <span> | </span>
+    <a class="logout-icon" title="logout" (click)="theLogOut()"
+      ><mat-icon> logout </mat-icon></a
+    >
+  </ng-container>
+</div>

@@ -1,0 +1,88 @@
+<div>
+  <!-- <input type="file" (change)="readExcelFile($event)" />-->
+  <button (click)="exportExcel()">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+    >
+      <path
+        fill="#217346"
+        d="M21.5,4.8h-6.1c0,0,0.1,0.8,0.1,1.4c0,0.8-0.1,1.4-0.1,1.4H19v2H15.2c0,0,0.1,0.9,0.1,1.4
+          c0,0.8-0.1,1.4-0.1,1.4H19v2H12.2c0,0,0.1,0.9,0.1,1.4c0,0.8-0.1,1.4-0.1,1.4H19v2H9.1c0,0,0.1,0.9,0.1,1.4c0,0.8-0.1,1.4-0.1,1.4H19
+          c0,0,0,0.6,0,1c0,0.8,0.1,1.4,0.1,1.4h-6.6v-2h4.4c0,0,0-0.6,0-1c0-0.8-0.1-1.4-0.1-1.4H9.5v-2h4.4c0,0,0-0.6,0-1c0-0.8-0.1-1.4-0.1-1.4
+          H9.5V9.6h4.4c0,0,0-0.6,0-1c0-0.8-0.1-1.4-0.1-1.4H9.5V4.8H21.5z M3,17.9V6.1c0-0.7,0.1-1.1,0.2-1.2c0.2-0.1,0.5-0.2,1.2-0.2h12.5v2.1
+          H5.8c-0.1,0-0.2,0-0.2,0.1v11.8c0,0.1,0.1,0.2,0.2,0.2h12.5v2.1H5.8c-0.7,0-1.1-0.1-1.2-0.2C3.1,19,3,18.7,3,18.1L3,17.9L3,17.9z"
+      />
+    </svg>
+  </button>
+
+  <button (click)="onSendEmail()">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+    >
+      <path
+        fill="#000000"
+        d="M21,4H3C1.9,4,1.01,4.9,1.01,6L1,18c0,1.1,0.89,2,1.99,2H21c1.1,0,2-0.9,2-2V6C23,4.9,22.1,4,21,4z M3,6h18l-9,7L3,6z M3,18v-7.17l9,6.75l9-6.75V18H3z"
+      />
+    </svg>
+  </button>
+
+  <ng-container *ngIf="purchases[0].day; else elseBlock">
+    <table #myTable>
+      <thead>
+        <tr>
+          <th>יום</th>
+          <th>שנה</th>
+          <th>חודש</th>
+          <th>שם מלא</th>
+          <th>מס עובד</th>
+          <th>שם מוצר</th>
+          <th>מחיר ליח</th>
+          <th>כמות</th>
+          <th>סה''כ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let purchase of purchases">
+          <td>{{ purchase.day }}</td>
+          <td>{{ purchase.year }}</td>
+          <td>{{ purchase.month }}</td>
+          <td>{{ purchase.fullName }}</td>
+          <td>{{ purchase.userId }}</td>
+          <td>{{ purchase.productName }}</td>
+          <td>{{ purchase.total }}</td>
+          <td>{{ purchase.quantity }}</td>
+          <td>{{ purchase.totalAmount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-template #elseBlock>
+    <table #myTable>
+      <thead>
+        <tr>
+          <th>שנה</th>
+          <th>חודש</th>
+          <th>שם מלא</th>
+          <th>מס עובד</th>
+          <th>סה''כ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let purchase of purchases">
+          <td>{{ purchase.year }}</td>
+          <td>{{ purchase.month }}</td>
+          <td>{{ purchase.fullName }}</td>
+          <td>{{ purchase.userId }}</td>
+          <td>{{ purchase.totalAmount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

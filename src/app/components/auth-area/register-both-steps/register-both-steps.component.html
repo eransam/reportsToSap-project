@@ -1,0 +1,14 @@
+<div>
+  <mat-step label="Register">
+    <app-register-step-one
+      (userStepOneDetails)="userInfoFromStepOne($event)"
+    ></app-register-step-one>
+  </mat-step>
+
+  <div class="return-to-login-btn">
+    <a class="go-to-login-link" routerLink="/home/">
+      <mat-icon>arrow_back</mat-icon>&nbsp;
+      <div class="go-to-login-text">Go to login</div>
+    </a>
+  </div>
+</div>

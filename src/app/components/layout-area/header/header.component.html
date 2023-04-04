@@ -1,0 +1,19 @@
+<app-search
+  *ngIf="
+    user &&
+    (router.url === '/shopping' ||
+      router.url === '/order' ||
+      router.url === '/admin-home')
+  "
+></app-search>
+
+<div class="nav-item repBth" *ngIf="user?.role === '2'">
+  <button
+    class="btn btn-outline-secondary"
+    type="button"
+    *ngIf="router.url !== '/PurchaseDetailsReportsListComponent'"
+    (click)="showRep()"
+  >
+    הצג דוח פירוט כולל
+  </button>
+</div>

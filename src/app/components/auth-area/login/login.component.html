@@ -1,0 +1,32 @@
+<div class="login-box" *ngIf="!user">
+  <form (ngSubmit)="submit()" #formBox="ngForm">
+    <mat-form-field floatLabel="always" appearance="fill">
+      <mat-label>מס עובד: </mat-label>
+      <input
+        matInput
+        autofocus
+        type="number"
+        name="id"
+        [(ngModel)]="credentials.id"
+        placeholder="הכנס מספר עובד "
+        #idBox="ngModel"
+        required
+        minlength="2"
+        maxlength="100"
+      />
+      <mat-hint align="end" *ngIf="idBox.touched && idBox.errors?.['required']"
+        >חסר מספר עובד</mat-hint
+      >
+      <mat-hint align="end" *ngIf="idBox.touched && idBox.errors?.['minlength']"
+        >מס עובד קצר מידי</mat-hint
+      >
+      <mat-hint align="end" *ngIf="idBox.touched && idBox.errors?.['maxlength']"
+        >מספר עובד ארוך מידי</mat-hint
+      >
+    </mat-form-field>
+    <button mat-raised-button [disabled]="formBox.invalid" class="login-btn">
+      <mat-icon></mat-icon>&nbsp;כניסה
+    </button>
+  </form>
+</div>
+

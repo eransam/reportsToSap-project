@@ -1,0 +1,56 @@
+<!-- <form
+  class="example-form"
+  [ngClass]="router.url === '/shopping' ? 'move-search' : 'smaller-search'"
+>
+  <mat-form-field floatLabel="always" appearance="outline">
+    <input
+      (keyup)="searchProduct($event)"
+      type="text"
+      matInput
+      placeholder="Search"
+      name="search"
+      [(ngModel)]="search"
+    />
+    <mat-icon matPrefix>search</mat-icon>
+    <br />
+    <button
+      mat-button
+      mat-icon-button
+      matSuffix
+      (click)="clearSearchField()"
+      *ngIf="search"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</form> -->
+
+<form class="new">
+  <div class="">
+    <input
+      (keyup)="searchProduct($event)"
+      type="text"
+      class=""
+      placeholder="Search"
+      name="search"
+      [(ngModel)]="search"
+      (click)="clearSearchField()"
+    />
+
+    <div class="input-group-append">
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="clearSearchField()"
+        *ngIf="search"
+      >
+        נקה
+        <i class="fas fa-times"></i>
+      </button>
+
+      <button class="btn btn-outline-secondary" type="button">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+</form>

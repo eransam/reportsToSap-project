@@ -1,0 +1,40 @@
+@import "../../../styles/variables/variables.scss";
+
+.login-box {
+  background-image: url("../../../../assets/images/products-img/images/ocean-sea-pastel-beach.jpg");
+  background-size: cover;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+mat-icon {
+  font-size: 20px;
+  color: #fff;
+}
+
+mat-label,
+mat-hint {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+mat-form-field {
+  margin-bottom: 24px;
+  width: max-content !important;
+  margin-right: 30px;
+}
+
+.mat-form-field-label {
+  color: #999;
+}
+
+.mat-form-field-underline {
+  background-color: #999;
+}
+
+.mat-form-field-ripple {
+  background-color: #999;
+}

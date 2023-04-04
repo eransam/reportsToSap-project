@@ -1,0 +1,87 @@
+html,
+body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif !important;
+  margin: 0;
+  padding: 0;
+}
+
+select,
+input {
+  font-size: large;
+}
+
+a {
+  color: blue;
+}
+
+.box {
+  display: inline-block;
+  margin: 10px;
+  border-radius: 3px;
+  text-align: center;
+  width: 195px;
+}
+
+.box:hover {
+  -webkit-box-shadow: 2px 4px 3px grey;
+  box-shadow: 2px 4px 3px grey;
+  cursor: pointer;
+}
+
+.mat-dialog-container {
+  background-color: #dbe2ef !important;
+}
+
+/* scroll bar styling */
+::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: lightgrey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #969191;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #817b7b;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+  background-color: #817b7b;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: #969191;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: #817b7b;
+}
+
+.highlight {
+  background-color: violet;
+  font-weight: bold;
+}
+
+.header-container {
+  color: blue !important;
+}
+
+/*# sourceMappingURL=styles.css.map */

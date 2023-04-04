@@ -1,0 +1,77 @@
+<div class="container my-3 searchRepForm">
+  <form
+    class="form-inline searchRepForm"
+    (ngSubmit)="add()"
+    [formGroup]="DetailsForm"
+  >
+    <!-- <div class="form-group mr-2">
+        <label for="year-select" class="mr-2"> בחר שנה: </label>
+        <select
+          id="year-select"
+          name="year"
+          class="form-control"
+          [(ngModel)]="selectedYear"
+          [formControl]="yearInput"
+        >
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+  
+      <div class="form-group mr-2">
+        <label for="month-select" class="mr-2"> :בחר חודש </label>
+        <select
+          id="month-select"
+          name="month"
+          class="form-control"
+          [(ngModel)]="selectedMonth"
+          [formControl]="monthInput"
+        >
+          <option value="1">ינואר</option>
+          <option value="2">פברואר</option>
+          <option value="3">מרץ</option>
+          <option value="4">אפריל</option>
+          <option value="5">מאי</option>
+          <option value="6">יוני</option>
+          <option value="7">יולי</option>
+          <option value="8">אוגוסט</option>
+          <option value="9">ספטמבר</option>
+          <option value="10">אוקטובר</option>
+          <option value="11">נובמבר</option>
+          <option value="12">דצמבר</option>
+        </select>
+      </div> -->
+
+    <div class="form-group mr-2">
+      <label for="file-select" class="mr-2">בחר קובץ Excel:</label>
+      <input
+        type="file"
+        id="file-select"
+        name="file"
+        accept=".xlsx"
+        #fileInput
+        style="display: none"
+        (change)="onFileSelected($event)"
+      />
+      <div class="buttonChoseFile">
+        <button type="button" class="btn btn-primary" (click)="fileInput.click()">
+            בחר קובץ
+          </button>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="!selectedFile"
+        (click)="processFile()"
+      >
+        טען קובץ
+      </button>
+      <span *ngIf="selectedFile" class="ml-2">{{ selectedFile.name }}</span>
+    </div>
+
+    <!-- <button type="submit" class="btn btn-primary">הורד קובץ ASCII</button> -->
+  </form>
+  <!-- <button (click)="downloadFile()">Download ASCII File</button> -->
+</div>

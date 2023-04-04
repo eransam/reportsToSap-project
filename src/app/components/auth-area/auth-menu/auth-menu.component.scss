@@ -1,0 +1,43 @@
+@import "../../../styles/variables/variables.scss";
+
+div {
+  position: absolute;
+  top: 3%;
+  z-index: 1;
+  left: 10%;
+  bottom: 20px;
+  width: max-content;
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.logout-icon {
+  color: $shopping-white;
+  top: 8px;
+  position: relative;
+}
+
+@media only screen and (max-width: 700px) {
+  div {
+    font-size: smaller;
+    right: 14px;
+  }
+
+  span mat-icon {
+    display: none;
+  }
+}
+
+.mat-icon {
+  -webkit-user-select: none;
+  user-select: none;
+  background-repeat: no-repeat;
+  /* padding-top: 13px; */
+  top: 15px;
+  display: inline-block;
+  fill: currentColor;
+  height: 25px;
+  color: black !important;
+  width: 28px;
+  font-size: 34px;
+}

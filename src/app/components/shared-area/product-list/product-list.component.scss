@@ -1,0 +1,45 @@
+.product-list-container {
+  text-align: center;
+}
+
+.loading {
+  height: 224px;
+  width: 234px;
+  top: 73px;
+  position: relative;
+}
+
+.tnovaComersial {
+  margin-top: 10px;
+}
+
+.deals {
+  margin-top: 50px;
+  text-align: right;
+  padding-right: 50px;
+  margin-bottom: 254px;
+}
+
+.iphoneComersial {
+  margin-top: 10px;
+}
+app-search {
+  position: absolute;
+  right: 25%;
+  top: 3%;
+  /* width: fit-content; */
+  margin: auto;
+  z-index: 5;
+}
+@media only screen and (max-width: 680px) {
+  app-search {
+    position: absolute;
+    left: 107px;
+    top: 3%;
+    right: 155px;
+    margin: auto;
+    z-index: 5;
+  }
+}
+
+

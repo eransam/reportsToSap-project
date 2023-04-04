@@ -1,0 +1,135 @@
+<div class="edit-product-container" *ngIf="productToEdit">
+  <h2>עדכן מוצר</h2>
+  <form [formGroup]="productForm" (ngSubmit)="update()">
+    <mat-form-field floatLabel="always" appearance="fill">
+      <mat-label>שם המוצר: </mat-label>
+      <input matInput type="text" [formControl]="productnameInput" readonly />
+      <mat-hint
+        align="end"
+        *ngIf="productnameInput.touched && productnameInput.errors?.['required']"
+        >Missing productname</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="productnameInput.touched && productnameInput.errors?.['minlength']"
+        >Length must be minimum 2 chars</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="productnameInput.touched && productnameInput.errors?.['maxlength']"
+        >Length must be maximum 100 chars</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="!productnameInput.errors?.['required'] && !productnameInput.errors?.['minlength'] && !productnameInput.errors?.['maxlength'] && productnameInput.invalid && !productIdInput.errors?.['uniqueName']"
+      >
+        שם תפוס</mat-hint
+      >
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="fill">
+      <mat-label>כמות: </mat-label>
+      <input matInput type="text" [formControl]="amountInput" />
+      <mat-hint
+        align="end"
+        *ngIf="amountInput.touched && amountInput.errors?.['required']"
+        >חסר כמות</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="amountInput.touched && amountInput.errors?.['maxlength']"
+        >אורך מקסימלי 100 תווים</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="!amountInput.errors?.['required'] && !amountInput.errors?.['maxlength'] && amountInput.invalid"
+      >
+        שם תפוס</mat-hint
+      >
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="fill">
+      <mat-label>הערות: </mat-label>
+      <input matInput type="text" [formControl]="noteInput" />
+      <mat-hint
+        align="end"
+        *ngIf="noteInput.touched && noteInput.errors?.['required']"
+        >חסר הערה</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="noteInput.touched && noteInput.errors?.['maxlength']"
+        >אורך מקסימלי 100 תווים</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="!noteInput.errors?.['required'] && !noteInput.errors?.['maxlength'] && noteInput.invalid"
+      >
+        שם תפוס</mat-hint
+      >
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="fill">
+      <mat-label>מזהה מוצר: </mat-label>
+      <input matInput type="text" [formControl]="productIdInput" />
+      <mat-hint
+        align="end"
+        *ngIf="productIdInput.touched && productIdInput.errors?.['required']"
+        >חסר מזהה מוצר</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="!productIdInput.errors?.['required']  && productIdInput.invalid && !productIdInput.errors?.['uniqueName']"
+      >
+        שם תפוס</mat-hint
+      >
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="fill">
+      <mat-label>מחיר: </mat-label>
+      <input
+        matInput
+        type="number"
+        step="0.01"
+        [formControl]="priceInput"
+        min="0"
+        max="1000"
+      />
+      <mat-hint
+        align="end"
+        *ngIf="priceInput.touched && priceInput.errors?.['required']"
+        >חסר מחיר</mat-hint
+      >
+      <mat-hint
+        align="end"
+        *ngIf="priceInput.touched && priceInput.errors?.['min']"
+        >מחיר לא יכול להיות שלילי
+      </mat-hint>
+      <mat-hint
+        align="end"
+        *ngIf="priceInput.touched && priceInput.errors?.['max']"
+        >אורך המחיר הוא עד 10000
+      </mat-hint>
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="fill">
+      <mat-label>קטגוריה: </mat-label>
+      <mat-select
+        name="categoryId"
+        [formControl]="categoryIdInput"
+        placeholder="Select category..."
+      >
+        <mat-option *ngFor="let c of categories" [value]="c.id">{{
+          c.name
+        }}</mat-option>
+      </mat-select>
+      <mat-hint
+        align="end"
+        *ngIf="categoryIdInput.errors?.['required'] && categoryIdInput.touched"
+        >חסר קטגוריה</mat-hint
+      >
+    </mat-form-field>
+
+    <br /><br /><button>עדכן</button>
+  </form>
+</div>
