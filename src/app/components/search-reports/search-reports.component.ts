@@ -10,9 +10,9 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ReportService } from '../services/reports.service';
+import { ReportService } from '../../services/reports.service';
 import { Router } from '@angular/router';
-import { NotifyService } from '../services/notify.service';
+import { NotifyService } from '../../services/notify.service';
 
 @Component({
   selector: 'app-search-reports',

@@ -14,7 +14,7 @@ import { HomeGuard } from './services/home.guard';
 import { SucssesMsgComponent } from './components/sucsses-msg/sucsses-msg.component';
 import { PurchaseDetailsComponent } from './components/purchase-details-reports-card/purchase-details-reports-card/purchase-details.component';
 import { EmailComponent } from './email/email.component';
-import { SearchReportsComponent } from './search-reports/search-reports.component';
+import { SearchReportsComponent } from './components/search-reports/search-reports.component';
 import { PurchaseDetailsReportsListComponent } from './components/purchase-details-reports-card/purchase-details-reports-list/purchase-details-reports-list.component';
 import { LayoutComponent } from './components/layout-area/layout/layout.component';
 

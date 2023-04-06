@@ -42,7 +42,7 @@ import { PdfReceiptComponent } from './components/orders-area/pdf-receipt/pdf-re
 import { SucssesMsgComponent } from './components/sucsses-msg/sucsses-msg.component';
 import { PurchaseDetailsComponent } from './components/purchase-details-reports-card/purchase-details-reports-card/purchase-details.component';
 import { EmailComponent } from './email/email.component';
-import { SearchReportsComponent } from './search-reports/search-reports.component';
+import { SearchReportsComponent } from './components/search-reports/search-reports.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { PurchaseDetailsReportsListComponent } from './components/purchase-details-reports-card/purchase-details-reports-list/purchase-details-reports-list.component';
@@ -92,7 +92,7 @@ import { ReportAsciiComponent } from './components/report-ascii/report-ascii.com
     PurchaseDetailsReportsListComponent,
     ProductDialogComponentAvokado,
     ProductDialogNumbersComponent,
-    ReportAsciiComponent
+    ReportAsciiComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,7 +107,7 @@ import { ReportAsciiComponent } from './components/report-ascii/report-ascii.com
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
   ],
   // Causes Angular to invoke that interceptor on each request:
   providers: [],

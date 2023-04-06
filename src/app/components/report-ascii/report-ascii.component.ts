@@ -28,6 +28,7 @@ export class ReportAsciiComponent implements OnInit {
   detailsFromformYear: any = '';
   selectedFile: File | null = null;
   acountCarNum: any = [];
+  myString: any = '  0                                                                                     \n  ';
   constructor(
     private reportService: ReportService,
     public router: Router,
@@ -81,29 +82,20 @@ export class ReportAsciiComponent implements OnInit {
   async add() {
     this.detailsFromformMonth = this.monthInput.value;
     this.detailsFromformYear = this.yearInput.value;
-    console.log('this.detailsFromformMonth: ', this.detailsFromformMonth);
-    console.log('this.detailsFromformYear: ', this.detailsFromformYear);
-
     this.AllTotalAmountByYearAndMonth =
       await this.reportService.getAllTotalAmountByYearAndMonth(
         this.detailsFromformMonth,
         this.detailsFromformYear
       );
-    console.log(
-      'this.AllTotalAmountByYearAndMonth123: ',
-      this.AllTotalAmountByYearAndMonth
-    );
-
     this.TotalAmountDay = this.AllTotalAmountByYearAndMonth[0].lastDayOfMonth;
     this.TotalAmountMonth = this.AllTotalAmountByYearAndMonth[0].month;
     this.TotalAmountYear = this.AllTotalAmountByYearAndMonth[0].year;
     this.totalAmountTemplate = this.AllTotalAmountByYearAndMonth[0].totalAmount;
-
+    this.totalAmountTemplate = this.totalAmountTemplate.toFixed(2);
     this.totalAmountTemplate = this.totalAmountTemplate
       .toString()
-      .replace(/\./g, '0')
+      .replace(/\./g, '')
       .padStart(12, '0');
-    this.downloadFile();
   }
 
   onFileSelected(event: any) {
@@ -139,9 +131,49 @@ export class ReportAsciiComponent implements OnInit {
         this.acountCarNum = this.acountCarNum.Hesbon;
         console.log('this.acountCarNum: ', this.acountCarNum);
         subArray.push({ Hesbon: this.acountCarNum });
-        // Update the value at index 0 of each sub-array
-        // subArray[0] = 222;
         console.log('subArrayNew: ', subArray);
+        let acountNum = subArray[12].Hesbon;
+        let sumWithTax = subArray[6];
+        sumWithTax = sumWithTax.toFixed(2);
+        sumWithTax = sumWithTax.toString().replace(/\./g, '').padStart(12, '0');
+        let excelDateValue = subArray[1];
+        const millisecondsPerDay = 86400000;
+        const jan1900To1970 = 25569;
+        let date = new Date(
+          (excelDateValue - jan1900To1970) * millisecondsPerDay
+        );
+        let formattedDate = `${
+          date.getMonth() + 1
+        }/${date.getDate()}/${date.getFullYear()}`;
+        console.log(formattedDate); // Output: "2/20/2023"
+        let dateParts = formattedDate.split('/');
+        let yearFromFile = parseInt(dateParts[2]);
+        let monthFromFile = parseInt(dateParts[1]);
+        let dayFromFile = parseInt(dateParts[0]);
+        const currentDate = new Date();
+        this.selectedYear = currentDate.getFullYear().toString();
+        this.selectedMonth = (currentDate.getMonth() + 1).toString();
+
+        this.myString += `${acountNum}             ${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}   21${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}${sumWithTax.toString()}NIS           paz ${monthFromFile.toString()}/${yearFromFile.toString()}000000000000 \n`;
+        console.log('this.myString: ', this.myString);
+
+        // this.asciiContent = new Blob(
+        //   [
+        //     `  0                                                                                     \n  ${
+        //       this.hova
+        //     }             ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS          Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000 \n          ${
+        //       this.zhot
+        //     }     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS          Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`,
+        //   ],
+        //   { type: 'text/plain' }
+        // );
+
+        // const link = document.createElement('a');
+        // link.setAttribute('href', URL.createObjectURL(this.asciiContent));
+        // link.setAttribute('download', 'MOVEIN.DAT');
+        // document.body.appendChild(link);
+        // link.click();
+        // document.body.removeChild(link);
       });
     };
   }

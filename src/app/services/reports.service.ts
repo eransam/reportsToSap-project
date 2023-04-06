@@ -25,38 +25,25 @@ export class ReportService {
     console.log('userNameOrId: ', userNameOrId);
     const yearRegex = /\d+$/;
     const userId = userNameOrId.match(yearRegex)[0];
-
-    // const words = userNameOrId.split('-');
-    // const userId = words[1];
-    // console.log('userId: ', userId);
-
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}FoodService.asmx/getRepByUserIdAndMonthAandYear?userId=${userId}&monthNum=${month}&yearNum=${year}`
       )
     );
-
-    console.log('item: ', item);
-
+    console.log('item in bringRepMin: ', item);
     return item;
   }
 
   async bringRepFull(userNameOrId: any, month: any, year: any): Promise<any[]> {
-    console.log('month: ', month);
-    console.log('userNameOrId: ', userNameOrId);
-
     const words = userNameOrId.split('-');
     const userId = words[1];
     console.log('userId: ', userId);
-
     const item = await firstValueFrom(
       this.http.get<any[]>(
         `${environment.apiPath}FoodService.asmx/getRepByUserIdAndMonthAandYearFull?userId=${userId}&monthNum=${month}&yearNum=${year}`
       )
     );
-
     console.log('item: ', item);
-
     return item;
   }
 
