@@ -28,7 +28,9 @@ export class ReportAsciiComponent implements OnInit {
   detailsFromformYear: any = '';
   selectedFile: File | null = null;
   acountCarNum: any = [];
-  myString: any = '  0                                                                                     \n  ';
+  totalSumWithTax: any;
+  myString: any =
+    '  0                                                                                     \n  ';
   constructor(
     private reportService: ReportService,
     public router: Router,
@@ -110,71 +112,59 @@ export class ReportAsciiComponent implements OnInit {
   processFile() {
     const fileReader = new FileReader();
     fileReader.readAsArrayBuffer(this.selectedFile);
-    fileReader.onload = () => {
+    fileReader.onload = async () => {
       const arrayBuffer = fileReader.result;
       const workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const data: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      console.log('data: ', data);
-
       data.splice(0, 3); // Deletes the first 3 elements
-      //   console.log("data2: " , data);
-
-      data.forEach(async (subArray) => {
-        console.log('subArray[0]: ', subArray[8]);
-
-        this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
-          subArray[8]
-        );
-        this.acountCarNum = this.acountCarNum[0] ? this.acountCarNum[0] : null;
-        this.acountCarNum = this.acountCarNum.Hesbon;
-        console.log('this.acountCarNum: ', this.acountCarNum);
-        subArray.push({ Hesbon: this.acountCarNum });
-        console.log('subArrayNew: ', subArray);
-        let acountNum = subArray[12].Hesbon;
-        let sumWithTax = subArray[6];
-        sumWithTax = sumWithTax.toFixed(2);
-        sumWithTax = sumWithTax.toString().replace(/\./g, '').padStart(12, '0');
-        let excelDateValue = subArray[1];
-        const millisecondsPerDay = 86400000;
-        const jan1900To1970 = 25569;
-        let date = new Date(
-          (excelDateValue - jan1900To1970) * millisecondsPerDay
-        );
-        let formattedDate = `${
-          date.getMonth() + 1
-        }/${date.getDate()}/${date.getFullYear()}`;
-        console.log(formattedDate); // Output: "2/20/2023"
-        let dateParts = formattedDate.split('/');
-        let yearFromFile = parseInt(dateParts[2]);
-        let monthFromFile = parseInt(dateParts[1]);
-        let dayFromFile = parseInt(dateParts[0]);
-        const currentDate = new Date();
-        this.selectedYear = currentDate.getFullYear().toString();
-        this.selectedMonth = (currentDate.getMonth() + 1).toString();
-
-        this.myString += `${acountNum}             ${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}   21${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}${sumWithTax.toString()}NIS           paz ${monthFromFile.toString()}/${yearFromFile.toString()}000000000000 \n`;
-        console.log('this.myString: ', this.myString);
-
-        // this.asciiContent = new Blob(
-        //   [
-        //     `  0                                                                                     \n  ${
-        //       this.hova
-        //     }             ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS          Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000 \n          ${
-        //       this.zhot
-        //     }     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS          Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`,
-        //   ],
-        //   { type: 'text/plain' }
-        // );
-
-        // const link = document.createElement('a');
-        // link.setAttribute('href', URL.createObjectURL(this.asciiContent));
-        // link.setAttribute('download', 'MOVEIN.DAT');
-        // document.body.appendChild(link);
-        // link.click();
-        // document.body.removeChild(link);
-      });
+      const checkMyString = await this.returnTheString(data);
+      console.log('checkMyString: ', checkMyString);
     };
+  }
+
+  async returnTheString(data: any) {
+    if (!Array.isArray(data)) {
+      throw new Error('data must be an array');
+    }
+
+    const promises = data.map(async (subArray: any) => {
+      this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
+        subArray[8]
+      );
+      this.acountCarNum = this.acountCarNum[0] ? this.acountCarNum[0] : null;
+      this.acountCarNum = this.acountCarNum.Hesbon;
+      subArray.push({ Hesbon: this.acountCarNum });
+      let acountNum = subArray[12].Hesbon;
+      let sumWithTax = subArray[6];
+      this.totalSumWithTax = 0;
+      sumWithTax = sumWithTax.toFixed(2);
+      sumWithTax = sumWithTax.toString().replace(/\./g, '').padStart(12, '0');
+      this.totalSumWithTax += Number(sumWithTax); // add to total sumWithTax
+
+      let excelDateValue = subArray[1];
+      const millisecondsPerDay = 86400000;
+      const jan1900To1970 = 25569;
+      let date = new Date(
+        (excelDateValue - jan1900To1970) * millisecondsPerDay
+      );
+      let formattedDate = `${
+        date.getMonth() + 1
+      }/${date.getDate()}/${date.getFullYear()}`;
+      console.log(formattedDate); // Output: "2/20/2023"
+      let dateParts = formattedDate.split('/');
+      let yearFromFile = parseInt(dateParts[2]);
+      let monthFromFile = parseInt(dateParts[1]);
+      let dayFromFile = parseInt(dateParts[0]);
+      const currentDate = new Date();
+      this.selectedYear = currentDate.getFullYear().toString();
+      this.selectedMonth = (currentDate.getMonth() + 1).toString();
+
+      this.myString += `${acountNum}             ${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}   21${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}${sumWithTax.toString()}NIS           paz ${monthFromFile.toString()}/${yearFromFile.toString()}000000000000 \n`;
+    });
+    await Promise.all(promises);
+
+    return { totalSumWithTax: this.totalSumWithTax, myString: this.myString };
   }
 }
