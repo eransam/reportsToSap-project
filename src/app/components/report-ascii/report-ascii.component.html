@@ -1,39 +1,39 @@
-<div class="container my-3 searchRepForm">
-  <form
-    class="form-inline searchRepForm"
-    (ngSubmit)="add()"
-    [formGroup]="DetailsForm"
-  >
-
-    <div class="form-group mr-2">
-      <label for="file-select" class="mr-2">בחר קובץ Excel:</label>
-      <input
-        type="file"
-        id="file-select"
-        name="file"
-        accept=".xlsx"
-        #fileInput
-        style="display: none"
-        (change)="onFileSelected($event)"
-      />
-      <div class="buttonChoseFile">
-        <button type="button" class="btn btn-primary" (click)="fileInput.click()">
-            בחר קובץ
-          </button>
-      </div>
-
-      <button
-        type="button"
-        class="btn btn-primary"
-        [disabled]="!selectedFile"
-        (click)="processFile()"
-      >
-        טען קובץ
-      </button>
-      <span *ngIf="selectedFile" class="ml-2">{{ selectedFile.name }}</span>
-    </div>
-
-    <!-- <button type="submit" class="btn btn-primary">הורד קובץ ASCII</button> -->
-  </form>
-  <!-- <button (click)="downloadFile()">Download ASCII File</button> -->
+<div class="form-group mr-2">
+  <label for="file-select" class="mr-2">בחר קובץ Excel:</label>
+  <input
+    type="file"
+    id="file-select"
+    name="file"
+    accept=".xlsx"
+    #fileInput
+    style="display: none"
+    (change)="onFileSelected($event)"
+  />
+  <div class="buttonChoseFile">
+    <button type="button" class="btn btn-primary" (click)="fileInput.click()">
+      בחר קובץ
+    </button>
+  </div>
 </div>
+<div class="form-group mr-2">
+  <label for="select-option" class="mr-2">בחר סוג קובץ:</label>
+  <select
+    id="select-option"
+    name="select-option"
+    class="form-control"
+    [(ngModel)]="selectedOption"
+  >
+    <option value="" disabled selected>בחר</option>
+    <option value="paz"> PAZ </option>
+  </select>
+</div>
+
+<button
+  type="button"
+  class="btn btn-primary"
+  [disabled]="!selectedFile"
+  (click)="processFile()"
+>
+  והורד ASCII המר לקובץ
+</button>
+<span *ngIf="selectedFile" class="ml-2">{{ selectedFile.name }}</span>

@@ -27,12 +27,13 @@
 header,
 footer {
   grid-column: span 6;
-  background-color: #dbe2ef;
+  background-color: #e3e3ff;
 }
 
 main {
   grid-column: span 6;
   overflow: auto;
+  background-color: #e3e3ff;
 }
 
 @media only screen and (max-width: 700px) {

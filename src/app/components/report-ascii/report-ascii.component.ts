@@ -29,6 +29,8 @@ export class ReportAsciiComponent implements OnInit {
   selectedFile: File | null = null;
   acountCarNum: any = [];
   totalSumWithTax: any;
+  selectedOption: string;
+
   myString: any =
     '  0                                                                                     \n';
   dayFromFile: any;
@@ -114,46 +116,51 @@ export class ReportAsciiComponent implements OnInit {
   }
 
   processFile() {
-    const fileReader = new FileReader();
-    fileReader.readAsArrayBuffer(this.selectedFile);
-    fileReader.onload = async () => {
-      const arrayBuffer = fileReader.result;
-      const workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const data: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      data.splice(0, 3); // Deletes the first 3 elements
-      const checkMyString = await this.returnTheString(data);
-      console.log('checkMyString.myString: ', checkMyString.myString);
-      let day = checkMyString.dayFromFile;
-      let month = checkMyString.monthFromFile;
-      let year = checkMyString.yearFromFile;
-      let year2digit = year % 100;
-      console.log('year: ', year % 100);
+    switch (this.selectedOption) {
+      case 'paz':
+        const fileReader = new FileReader();
+        fileReader.readAsArrayBuffer(this.selectedFile);
+        fileReader.onload = async () => {
+          const arrayBuffer = fileReader.result;
+          const workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const data: any[][] = XLSX.utils.sheet_to_json(worksheet, {
+            header: 1,
+          });
+          data.splice(0, 3); // Deletes the first 3 elements
+          const checkMyString = await this.returnTheString(data);
+          console.log('checkMyString.myString: ', checkMyString.myString);
+          let day = checkMyString.dayFromFile;
+          let month = checkMyString.monthFromFile;
+          let year = checkMyString.yearFromFile;
+          let year2digit = year % 100;
+          console.log('year: ', year % 100);
 
-      let theTotal = checkMyString.totalSumWithTax;
-      theTotal = theTotal.toFixed(2);
-      theTotal = theTotal.toString().replace(/\./g, '').padStart(12, '0');
+          let theTotal = checkMyString.totalSumWithTax;
+          theTotal = theTotal.toFixed(2);
+          theTotal = theTotal.toString().replace(/\./g, '').padStart(12, '0');
 
-      let allString = checkMyString.myString;
-      console.log('allStringstart: ', allString);
+          let allString = checkMyString.myString;
+          console.log('allStringstart: ', allString);
 
-      let endString = `  ${
-        this.hova
-      }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \n          ${
-        this.zhot
-      }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           PAZ 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`;
+          let endString = `  ${
+            this.hova
+          }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \n          ${
+            this.zhot
+          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           PAZ 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`;
 
-      allString += endString;
-      console.log('allStringend: ', allString);
-      this.asciiContent = new Blob([allString], { type: 'text/plain' });
-      const link = document.createElement('a');
-      link.setAttribute('href', URL.createObjectURL(this.asciiContent));
-      link.setAttribute('download', 'MOVEIN.DAT');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
+          allString += endString;
+          console.log('allStringend: ', allString);
+          this.asciiContent = new Blob([allString], { type: 'text/plain' });
+          const link = document.createElement('a');
+          link.setAttribute('href', URL.createObjectURL(this.asciiContent));
+          link.setAttribute('download', 'MOVEIN.DAT');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+    }
   }
 
   async returnTheString(data: any) {
