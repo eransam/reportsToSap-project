@@ -30,7 +30,11 @@ export class ReportAsciiComponent implements OnInit {
   acountCarNum: any = [];
   totalSumWithTax: any;
   myString: any =
-    '  0                                                                                     \n  ';
+    '  0                                                                                     \n';
+  dayFromFile: any;
+  yearFromFile: any;
+  monthFromFile: any;
+
   constructor(
     private reportService: ReportService,
     public router: Router,
@@ -120,7 +124,35 @@ export class ReportAsciiComponent implements OnInit {
       const data: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
       data.splice(0, 3); // Deletes the first 3 elements
       const checkMyString = await this.returnTheString(data);
-      console.log('checkMyString: ', checkMyString);
+      console.log('checkMyString.myString: ', checkMyString.myString);
+      let day = checkMyString.dayFromFile;
+      let month = checkMyString.monthFromFile;
+      let year = checkMyString.yearFromFile;
+      let year2digit = year % 100;
+      console.log('year: ', year % 100);
+
+      let theTotal = checkMyString.totalSumWithTax;
+      theTotal = theTotal.toFixed(2);
+      theTotal = theTotal.toString().replace(/\./g, '').padStart(12, '0');
+
+      let allString = checkMyString.myString;
+      console.log('allStringstart: ', allString);
+
+      let endString = `  ${
+        this.hova
+      }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \n          ${
+        this.zhot
+      }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           PAZ 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`;
+
+      allString += endString;
+      console.log('allStringend: ', allString);
+      this.asciiContent = new Blob([allString], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.setAttribute('href', URL.createObjectURL(this.asciiContent));
+      link.setAttribute('download', 'MOVEIN.DAT');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     };
   }
 
@@ -152,19 +184,27 @@ export class ReportAsciiComponent implements OnInit {
       let formattedDate = `${
         date.getMonth() + 1
       }/${date.getDate()}/${date.getFullYear()}`;
+
       console.log(formattedDate); // Output: "2/20/2023"
       let dateParts = formattedDate.split('/');
-      let yearFromFile = parseInt(dateParts[2]);
-      let monthFromFile = parseInt(dateParts[1]);
-      let dayFromFile = parseInt(dateParts[0]);
+      this.monthFromFile = parseInt(dateParts[0]);
+      this.yearFromFile = parseInt(dateParts[2]);
+      this.dayFromFile = parseInt(dateParts[1]);
       const currentDate = new Date();
       this.selectedYear = currentDate.getFullYear().toString();
       this.selectedMonth = (currentDate.getMonth() + 1).toString();
+      let year2dig = this.yearFromFile % 100;
 
-      this.myString += `${acountNum}             ${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}   21${dayFromFile.toString()}${monthFromFile.toString()}${yearFromFile.toString()}${sumWithTax.toString()}NIS           paz ${monthFromFile.toString()}/${yearFromFile.toString()}000000000000 \n`;
+      this.myString += `${acountNum}             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${sumWithTax.toString()}NIS           paz 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \n`;
     });
     await Promise.all(promises);
 
-    return { totalSumWithTax: this.totalSumWithTax, myString: this.myString };
+    return {
+      totalSumWithTax: this.totalSumWithTax,
+      myString: this.myString,
+      dayFromFile: this.dayFromFile,
+      monthFromFile: this.monthFromFile,
+      yearFromFile: this.yearFromFile,
+    };
   }
 }
