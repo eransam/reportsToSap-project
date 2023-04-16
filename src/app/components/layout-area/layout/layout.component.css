@@ -27,20 +27,20 @@
 header,
 footer {
   grid-column: span 6;
-  background-color: #e3e3ff;
+  background-color: white;
 }
 
 main {
   grid-column: span 6;
   overflow: auto;
-  background-color: #e3e3ff;
+  background-color: white;
 }
 
 @media only screen and (max-width: 700px) {
   .layout-container {
     -ms-grid-rows: 13% 75% 12%;
     grid-template-rows: 13% 75% 12%;
-    background-color: #dbe2ef;
+    background-color: white;
   }
 }
 /*# sourceMappingURL=layout.component.css.map */
