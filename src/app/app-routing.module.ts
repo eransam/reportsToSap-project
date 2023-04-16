@@ -17,12 +17,14 @@ import { EmailComponent } from './email/email.component';
 import { SearchReportsComponent } from './components/search-reports/search-reports.component';
 import { PurchaseDetailsReportsListComponent } from './components/purchase-details-reports-card/purchase-details-reports-list/purchase-details-reports-list.component';
 import { LayoutComponent } from './components/layout-area/layout/layout.component';
+import { HomePageButtonsComponent } from './components/home-page-buttons/home-page-buttons.component';
+import { FoodRepComponent } from './components/food-rep/food-rep.component';
 
 const routes: Routes = [
   { path: 'register', component: RegisterBothStepsComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'emailcomponent', component: EmailComponent },
-
+  { path: 'foodRepComponent', component: FoodRepComponent },
   { path: 'sucssesmsg', component: SucssesMsgComponent },
   { path: 'home', component: HomeComponent },
   { path: 'layoutcomponent', component: LayoutComponent },

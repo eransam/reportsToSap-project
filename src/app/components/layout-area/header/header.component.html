@@ -1,20 +1,5 @@
 <h1>ניהול דוחות</h1>
-<app-search
-  *ngIf="
-    user &&
-    (router.url === '/shopping' ||
-      router.url === '/order' ||
-      router.url === '/admin-home')
-  "
-></app-search>
 
-<div class="nav-item repBth" *ngIf="user?.role === '2'">
-  <button
-    class="btn btn-outline-secondary"
-    type="button"
-    *ngIf="router.url !== '/PurchaseDetailsReportsListComponent'"
-    (click)="showRep()"
-  >
-    הצג דוח פירוט כולל
-  </button>
-</div>
+<app-logo></app-logo>
+<app-home-page-buttons></app-home-page-buttons>
+

@@ -50,6 +50,8 @@ import { ProductDialogComponentAvokado } from './components/products-area/produc
 import { ProductDialogNumbersComponent } from './components/product-dialog-numbers/product-dialog-numbers.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ReportAsciiComponent } from './components/report-ascii/report-ascii.component';
+import { HomePageButtonsComponent } from './components/home-page-buttons/home-page-buttons.component';
+import { FoodRepComponent } from './components/food-rep/food-rep.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +95,8 @@ import { ReportAsciiComponent } from './components/report-ascii/report-ascii.com
     ProductDialogComponentAvokado,
     ProductDialogNumbersComponent,
     ReportAsciiComponent,
+    HomePageButtonsComponent,
+    FoodRepComponent,
   ],
   imports: [
     BrowserModule,

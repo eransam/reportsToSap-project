@@ -12,7 +12,7 @@ div {
 
 .logo {
   height: 63px;
-//   left: זpx;
+  //   left: זpx;
   position: relative;
   bottom: 7px;
 }
@@ -20,4 +20,10 @@ div {
 .logo2 {
   height: 80px;
   margin-left: 121px;
+}
+
+.divImg > * {
+  height: 56px;
+  position: relative;
+  top: 73px;
 }
