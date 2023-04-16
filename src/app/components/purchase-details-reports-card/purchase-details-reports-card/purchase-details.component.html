@@ -32,7 +32,7 @@
     </svg>
   </button>
 
-  <ng-container *ngIf="purchases[0].day; else elseBlock">
+  <ng-container *ngIf="purchases && purchases.length > 0; else elseBlock">
     <table #myTable>
       <thead>
         <tr>
