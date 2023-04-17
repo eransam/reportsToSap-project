@@ -134,20 +134,17 @@ export class ReportAsciiComponent implements OnInit {
             header: 1,
           });
           data.splice(0, 3); // Deletes the first 3 elements
-          const checkMyString = await this.returnTheString(data);
-          console.log('checkMyString.myString: ', checkMyString.myString);
+          const checkMyString = await this.returnTheStringPaz(data);
           let day = checkMyString.dayFromFile;
           let month = checkMyString.monthFromFile;
           let year = checkMyString.yearFromFile;
           let year2digit = year % 100;
-          console.log('year: ', year % 100);
 
           let theTotal = checkMyString.totalSumWithTax;
           theTotal = theTotal.toFixed(2);
           theTotal = theTotal.toString().replace(/\./g, '').padStart(12, '0');
 
           let allString = checkMyString.myString;
-          console.log('allStringstart: ', allString);
 
           let endString = `  ${
             this.hova
@@ -156,7 +153,6 @@ export class ReportAsciiComponent implements OnInit {
           }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           PAZ 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`;
 
           allString += endString;
-          console.log('allStringend: ', allString);
           this.asciiContent = new Blob([allString], { type: 'text/plain' });
           const link = document.createElement('a');
           link.setAttribute('href', URL.createObjectURL(this.asciiContent));
@@ -179,16 +175,14 @@ export class ReportAsciiComponent implements OnInit {
             header: 1,
           });
 
-          console.log('eldanData: ', data);
-
           data.splice(0, 1); // Deletes the first 1 elements
           const checkMyString = await this.returnTheStringEldan(data);
-          console.log('checkMyString.myString: ', checkMyString.myString);
+          console.log('checkMyString: ', checkMyString);
+
           let day = checkMyString.dayFromFile;
           let month = checkMyString.monthFromFile;
           let year = checkMyString.yearFromFile;
           let year2digit = year % 100;
-          console.log('year: ', year % 100);
 
           let theTotal = checkMyString.lastElementIntheArrayWithTheAllTotal;
           theTotal = Number(theTotal);
@@ -197,7 +191,6 @@ export class ReportAsciiComponent implements OnInit {
           theTotal = theTotal.toString().replace(/\./g, '').padStart(12, '0');
 
           let allString2 = checkMyString.myString;
-          console.log('allStringstart: ', allString2);
 
           let endString2 = `  ${
             this.hova
@@ -206,7 +199,6 @@ export class ReportAsciiComponent implements OnInit {
           }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           PAZ 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
 
           allString2 += endString2;
-          console.log('allStringend: ', allString2);
           this.asciiContent = new Blob([allString2], { type: 'text/plain' });
           const link = document.createElement('a');
           link.setAttribute('href', URL.createObjectURL(this.asciiContent));
@@ -224,51 +216,46 @@ export class ReportAsciiComponent implements OnInit {
       throw new Error('data must be an array');
     }
     this.lastElementIntheArrayWithTheAllTotal = data.pop();
+    data.splice(-2, 2); // removes the last two elements (4 and 5)
+    console.log('eldanData: ', data);
 
-    const promises = data.map(async (subArray: any) => {
-      this.hovaAndRishoeiWithTax = subArray[17] + subArray[18];
+    const promises = data.map(async (subArray: any, index) => {
       this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
       let hachzakatRehevWithoutTax = subArray[16];
-      this.hachzakatRehevWithTax = subArray[16] * 1.17;
       let ShlishTax = this.hachzakatRehevWithTax - hachzakatRehevWithoutTax;
       this.hachzakatRehevWithTax = hachzakatRehevWithoutTax + ShlishTax;
-      this.totalRentWithTax = subArray[15] * 1.17;
 
       this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
         subArray[4]
       );
 
-      this.acountCarNum = this.acountCarNum[0] ? this.acountCarNum[0] : null;
-      this.acountCarNum = this.acountCarNum.Hesbon;
+      this.acountCarNum = this.acountCarNum[0]
+        ? this.acountCarNum[0].Hesbon
+        : null;
 
-      console.log('this.acountCarNum333: ', this.acountCarNum);
-
-      this.acountCarNum = this.acountCarNum[0] ? this.acountCarNum[0] : null;
-
-      subArray.push({ Hesbon: this.acountCarNum });
-
+      this.hachzakatRehevWithTax = subArray[16] * 1.17;
       this.hachzakatRehevWithTax = Number(this.hachzakatRehevWithTax);
-      this.hachzakatRehevWithTax = this.hachzakatRehevWithTax.toFixed(2);
       this.hachzakatRehevWithTax = this.hachzakatRehevWithTax
+        .toFixed(2)
         .toString()
         .replace(/\./g, '')
         .padStart(12, '0');
 
-      this.hachzakatRehevWithTax = Number(this.hachzakatRehevWithTax); // add to total sumWithTax
-
-      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax.toFixed(2);
-      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax
-        .toString()
-        .replace(/\./g, '')
-        .padStart(12, '0');
+      this.hovaAndRishoeiWithTax = subArray[17] + subArray[18];
       this.hovaAndRishoeiWithTax = Number(this.hovaAndRishoeiWithTax); // add to total sumWithTax
-
-      this.totalRentWithTax = this.totalRentWithTax.toFixed(2);
-      this.totalRentWithTax = this.totalRentWithTax
+      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax
+        .toFixed(2)
         .toString()
         .replace(/\./g, '')
         .padStart(12, '0');
+
+      this.totalRentWithTax = subArray[15] * 1.17;
       this.totalRentWithTax = Number(this.totalRentWithTax); // add to total sumWithTax
+      this.totalRentWithTax = this.totalRentWithTax
+        .toFixed(2)
+        .toString()
+        .replace(/\./g, '')
+        .padStart(12, '0');
 
       let excelDateValue = subArray[10];
       const millisecondsPerDay = 86400000;
@@ -290,16 +277,13 @@ export class ReportAsciiComponent implements OnInit {
       this.selectedMonth = (currentDate.getMonth() + 1).toString();
       let year2dig = this.yearFromFile % 100;
 
-      this.myString += `
-         ${
-           this.acountCarNum
-         }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hachzakatRehevWithTax.toString()}NIS           ELDAN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \n
-         ${
-           this.acountCarNum
-         }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           ELDAN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \n
-         ${
-           this.acountCarNum
-         }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           ELDAN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \n`;
+      this.myString += `${
+        this.acountCarNum
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hachzakatRehevWithTax.toString()}NIS           ELDAN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \n${
+        this.acountCarNum
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           ELDAN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \n${
+        this.acountCarNum
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           ELDAN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \n`;
     });
     await Promise.all(promises);
 
@@ -316,7 +300,7 @@ export class ReportAsciiComponent implements OnInit {
     };
   }
 
-  async returnTheString(data: any) {
+  async returnTheStringPaz(data: any) {
     if (!Array.isArray(data)) {
       throw new Error('data must be an array');
     }

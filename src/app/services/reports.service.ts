@@ -49,16 +49,19 @@ export class ReportService {
 
   async getCarAcountNumByCarNum(carNum: any): Promise<any[]> {
     console.log('carNum in getCarAcountNumByCarNum: ', carNum);
-
-    const item = await firstValueFrom(
-      this.http.get<any[]>(
-        `${
-          environment.apiPath
-        }FoodService.asmx/getCarAcountNumByCarNum?carNum=${carNum.toString()}`
-      )
-    );
-    console.log('item in getCarAcountNumByCarNum: ', item);
-    return item;
+    if (carNum) {
+      const item = await firstValueFrom(
+        this.http.get<any[]>(
+          `${
+            environment.apiPath
+          }FoodService.asmx/getCarAcountNumByCarNum?carNum=${carNum.toString()}`
+        )
+      );
+      console.log('item in getCarAcountNumByCarNum: ', item);
+      return item;
+    } else {
+      return [];
+    }
   }
 
   async bringRepIntheCurrentMonth(): Promise<any[]> {

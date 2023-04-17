@@ -5,6 +5,8 @@ import { UserModel } from 'src/app/models/user.model';
 import store from 'src/app/redux/store';
 import { ReportService } from 'src/app/services/reports.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,7 +20,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     private reportService: ReportService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
