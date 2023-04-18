@@ -297,7 +297,7 @@ export class ReportAsciiComponent implements OnInit {
             this.hovaEldan
           }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \n         ${
             this.zhotEldan
-          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           ELN 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
+          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           FRE 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
 
           allString2 += endString2;
           allString2.replace(' ', '&nbsp;');
@@ -420,11 +420,11 @@ export class ReportAsciiComponent implements OnInit {
 
       this.myString += `${
         this.acountCarNum
-      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hachzakatRehevWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hachzakatRehevWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
         this.acountCarNum
-      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
         this.acountCarNum
-      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n`;
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n`;
     });
     await Promise.all(promises);
 
@@ -442,7 +442,6 @@ export class ReportAsciiComponent implements OnInit {
       allFullTtotal: this.allFullTtotal,
     };
   }
-
 
   async returnTheStringEldan(data: any) {
     console.log('data in returnTheStringEldan', data);
