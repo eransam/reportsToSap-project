@@ -4,5 +4,8 @@
 
 <!-- Only show the app-home-page-buttons component if the current route is not the home route -->
 <ng-container *ngIf="router.url !== '/home'">
-  <app-home-page-buttons></app-home-page-buttons>
+  <div class="buttonPage"></div>
+  <app-home-page-buttons
+    style="position: relative; top: 70px"
+  ></app-home-page-buttons>
 </ng-container>

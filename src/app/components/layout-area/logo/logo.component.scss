@@ -25,5 +25,6 @@ div {
 .divImg > * {
   height: 56px;
   position: relative;
-  top: 73px;
+  top: 125px;
+  z-index: 2;
 }
