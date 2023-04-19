@@ -1,4 +1,19 @@
 <div class="form-group mr-2">
+  <label for="select-option" class="mr-2">בחר סוג קובץ:</label>
+  <select
+    id="select-option"
+    name="select-option"
+    class="form-control"
+    [(ngModel)]="selectedOption"
+  >
+    <option value="" disabled selected>בחר</option>
+    <option value="PAZ">PAZ</option>
+    <option value="ELDAN">ELDAN</option>
+    <option value="FREESBE">FREESBE</option>
+  </select>
+</div>
+
+<div class="form-group mr-2">
   <label for="file-select" class="mr-2">בחר קובץ Excel:</label>
   <input
     type="file"
@@ -14,20 +29,6 @@
       בחר קובץ
     </button>
   </div>
-</div>
-<div class="form-group mr-2">
-  <label for="select-option" class="mr-2">בחר סוג קובץ:</label>
-  <select
-    id="select-option"
-    name="select-option"
-    class="form-control"
-    [(ngModel)]="selectedOption"
-  >
-    <option value="" disabled selected>בחר</option>
-    <option value="PAZ">PAZ</option>
-    <option value="ELDAN">ELDAN</option>
-    <option value="FREESBE">FREESBE</option>
-  </select>
 </div>
 
 <button

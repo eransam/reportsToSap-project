@@ -41,7 +41,7 @@ export class ReportAsciiComponent implements OnInit {
   selectedOption: string;
 
   myString: any =
-    '  0                                                                                     \n';
+    '  0                                                                                     \r\n';
   dayFromFile: any;
   yearFromFile: any;
   monthFromFile: any;
@@ -224,9 +224,9 @@ export class ReportAsciiComponent implements OnInit {
           let allString2 = checkMyString.myString;
           let endString2 = `  ${
             this.hovaEldan
-          }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \n         ${
+          }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \r\n         ${
             this.zhotEldan
-          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           ELN 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
+          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           ELN 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
 
           allString2 += endString2;
           allString2.replace(' ', '&nbsp;');
@@ -295,9 +295,9 @@ export class ReportAsciiComponent implements OnInit {
           let allString2 = checkMyString.myString;
           let endString2 = `  ${
             this.hovaEldan
-          }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \n         ${
+          }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \r\n         ${
             this.zhotEldan
-          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           FRE 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
+          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           FRE 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
 
           allString2 += endString2;
           allString2.replace(' ', '&nbsp;');
@@ -379,7 +379,7 @@ export class ReportAsciiComponent implements OnInit {
 
       this.hovaAndRishoeiWithTax = subArray[17] + subArray[18];
       this.hovaAndRishoeiWithTax = Number(this.hovaAndRishoeiWithTax); // add to total sumWithTax
-      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
+      //   this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
       this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax.toFixed(2);
       this.allFullTtotal += Number(this.hovaAndRishoeiWithTax);
 
@@ -509,7 +509,7 @@ export class ReportAsciiComponent implements OnInit {
 
       this.hovaAndRishoeiWithTax = subArray[17] + subArray[18];
       this.hovaAndRishoeiWithTax = Number(this.hovaAndRishoeiWithTax); // add to total sumWithTax
-      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
+      //   this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
       this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax.toFixed(2);
       this.allFullTtotal += Number(this.hovaAndRishoeiWithTax);
 
