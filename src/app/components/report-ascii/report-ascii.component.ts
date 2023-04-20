@@ -29,6 +29,8 @@ export class ReportAsciiComponent implements OnInit {
   TotalAmountYear: any = '';
   totalAmountTemplate: any = '';
 
+  shniShlishTotal: any = 0;
+
   //  hova
   hovamiznon: any = '135201';
   mam: any = '219007';
@@ -173,6 +175,7 @@ export class ReportAsciiComponent implements OnInit {
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          this.selectedFile = null;
         };
         break;
 
@@ -192,7 +195,7 @@ export class ReportAsciiComponent implements OnInit {
           data.splice(0, 1); // Deletes the first 1 elements
           console.log('dataEldan: ', data);
 
-          const checkMyString = await this.returnTheStringEldan(data);
+          let checkMyString = await this.returnTheStringEldan(data);
           console.log(
             'checkMyString.allFullTtotal: ',
             checkMyString.allFullTtotal
@@ -203,20 +206,23 @@ export class ReportAsciiComponent implements OnInit {
           let year = checkMyString.yearFromFile;
           let year2digit = year % 100;
           let theTotal = checkMyString.lastElementIntheArrayWithTheAllTotal[19];
-          console.log('theTotal: ', theTotal);
 
           theTotal = Number(theTotal);
           let taxOfTheTotal: any = (theTotal * 0.17).toFixed(2);
-          theTotal = theTotal - taxOfTheTotal;
-          let theTax2_3: any = checkMyString.tax2_3;
+          //   theTotal = theTotal - taxOfTheTotal;
+          let theTax2_3: any = checkMyString.shniShlishTotal;
           console.log('theTax2_3: ', theTax2_3);
           theTax2_3 = theTax2_3.toFixed(2);
           theTax2_3 = theTax2_3.toString().replace(/\./g, '').padStart(12, '0');
+          console.log('theTax2_3: ', theTax2_3);
+
           theTotal = theTotal.toFixed(2);
           taxOfTheTotal = taxOfTheTotal
             .toString()
             .replace(/\./g, '')
             .padStart(12, '0');
+          console.log('theTotal: ', theTotal);
+
           let allFullTtotal = checkMyString.allFullTtotal
             .toFixed(2)
             .toString()
@@ -233,7 +239,7 @@ export class ReportAsciiComponent implements OnInit {
             this.mam
           }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \r\n         ${
             this.zhotEldan
-          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           ELN 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
+          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           ELN 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
 
           allString2 += endString2;
           allString2.replace(' ', '&nbsp;');
@@ -245,6 +251,7 @@ export class ReportAsciiComponent implements OnInit {
           link.click();
           document.body.removeChild(link);
         };
+        this.selectedFile = null;
         break;
 
       case 'FREESBE':
@@ -278,7 +285,7 @@ export class ReportAsciiComponent implements OnInit {
 
           theTotal = Number(theTotal);
           let taxOfTheTotal: any = (theTotal * 0.17).toFixed(2);
-          theTotal = theTotal - taxOfTheTotal;
+          //   theTotal = theTotal - taxOfTheTotal;
           let theTax2_3: any = checkMyString.tax2_3;
           console.log('theTax2_3: ', theTax2_3);
           theTax2_3 = theTax2_3.toFixed(2);
@@ -304,7 +311,7 @@ export class ReportAsciiComponent implements OnInit {
             this.mam
           }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \r\n         ${
             this.zhotFreesbe
-          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           FRE 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
+          }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           FRE 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
 
           allString2 += endString2;
           allString2.replace(' ', '&nbsp;');
@@ -316,6 +323,7 @@ export class ReportAsciiComponent implements OnInit {
           link.click();
           document.body.removeChild(link);
         };
+        this.selectedFile = null;
         break;
     }
   }
@@ -470,42 +478,31 @@ export class ReportAsciiComponent implements OnInit {
 
     for (let i = 1; i < data.length; i++) {
       if (data[i][16] === 'פרמיה חודשית') {
-        data[i - 1][19] += data[i][19];
+        data[i - 1][15] += data[i][19];
+        console.log('data[i - 1][19]: ', data[i - 1][19]);
       }
     }
+    console.log('data after for: ', data);
+
     data = data.filter((subArray) => subArray[16] !== 'פרמיה חודשית');
-    console.log('data after filter: ', data);
 
     const promises = data.map(async (subArray: any, index: number) => {
       let hachzakatRehevWithoutTax = subArray[16];
-      console.log('hachzakatRehevWithoutTax: ', hachzakatRehevWithoutTax);
+      this.shniShlishTotal += hachzakatRehevWithoutTax * 0.17 * (2 / 3);
 
-      this.hachzakatRehevWithTax = subArray[16] * 1.17;
-      let ShlishTax = this.hachzakatRehevWithTax - hachzakatRehevWithoutTax;
-      ShlishTax = Number(ShlishTax);
-      console.log('ShlishTax: ', ShlishTax);
+      this.hachzakatRehevWithTax = subArray[16] + (subArray[16] * 0.17) / 3;
 
-      ShlishTax = ShlishTax / 3;
-      console.log('ShlishTax2: ', ShlishTax);
-      this.hachzakatRehevWithTax = hachzakatRehevWithoutTax + ShlishTax;
-
-      this.hachzakatRehevWithTax = Number(this.hachzakatRehevWithTax);
       this.hachzakatRehevWithTax = this.hachzakatRehevWithTax.toFixed(2);
+
       this.allFullTtotal += Number(this.hachzakatRehevWithTax);
-      console.log('this.allFullTtotal: ', this.allFullTtotal);
 
       this.hachzakatRehevWithTax = this.hachzakatRehevWithTax
         .toString()
         .replace(/\./g, '')
         .padStart(12, '0');
 
-      let shniShlish: any = (ShlishTax * 2).toFixed(2);
-      shniShlish = Number(shniShlish);
-      this.allFullTtotal += Number(shniShlish);
-
-      this.Tax_2_3 += shniShlish;
-      this.Tax_2_3 = Number(this.Tax_2_3);
-
+      console.log('this.hachzakatRehevWithTax2: ', this.hachzakatRehevWithTax);
+      let hachzakatRehevWithTax = this.hachzakatRehevWithTax;
       this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
         subArray[4]
       );
@@ -554,10 +551,12 @@ export class ReportAsciiComponent implements OnInit {
       this.selectedYear = currentDate.getFullYear().toString();
       this.selectedMonth = (currentDate.getMonth() + 1).toString();
       let year2dig = this.yearFromFile % 100;
-
+      console.log('this.hachzakatRehevWithTax3: ', this.hachzakatRehevWithTax);
+      //   this.myString =
+      //     '  0                                                                                     \r\n';
       this.myString += `${
         this.acountCarNum
-      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hachzakatRehevWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${hachzakatRehevWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
         this.acountCarNum
       }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
         this.acountCarNum
@@ -577,6 +576,7 @@ export class ReportAsciiComponent implements OnInit {
         this.lastElementIntheArrayWithTheAllTotal,
       tax2_3: this.Tax_2_3,
       allFullTtotal: this.allFullTtotal,
+      shniShlishTotal: this.shniShlishTotal,
     };
   }
 
@@ -624,6 +624,7 @@ export class ReportAsciiComponent implements OnInit {
       dayFromFile: this.dayFromFile,
       monthFromFile: this.monthFromFile,
       yearFromFile: this.yearFromFile,
+      shniShlishTotal: this.shniShlishTotal,
     };
   }
 }

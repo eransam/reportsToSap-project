@@ -49,7 +49,7 @@ export class ReportService {
 
   async getCarAcountNumByCarNum(carNum: any): Promise<any[]> {
     console.log('carNum in getCarAcountNumByCarNum: ', carNum);
-    if (carNum) {
+    if (typeof carNum === 'number') {
       const item = await firstValueFrom(
         this.http.get<any[]>(
           `${
