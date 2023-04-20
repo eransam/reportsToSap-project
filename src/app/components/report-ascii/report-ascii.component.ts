@@ -28,10 +28,17 @@ export class ReportAsciiComponent implements OnInit {
   TotalAmountMonth: any = '';
   TotalAmountYear: any = '';
   totalAmountTemplate: any = '';
-  hova: any = '135201';
-  zhot: any = '521222';
-  hovaEldan: any = '219007';
+
+  //  hova
+  hovamiznon: any = '135201';
+  mam: any = '219007';
+
+  // zhot
   zhotEldan: any = '2168024';
+  zhotmiznon: any = '521222';
+  zhotFreesbe: any = '2168257';
+  zhotPaz: any = '0000000';
+
   theTtxetToTheAscii: any = '';
   detailsFromformMonth: any = '';
   detailsFromformYear: any = '';
@@ -70,9 +77,9 @@ export class ReportAsciiComponent implements OnInit {
   asciiContent: Blob = new Blob(
     [
       `0\n${
-        this.hova
+        this.hovamiznon
       } ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()} ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000\n       ${
-        this.zhot
+        this.zhotmiznon
       } ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()} ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000\n99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`,
     ],
     { type: 'text/plain' }
@@ -82,9 +89,9 @@ export class ReportAsciiComponent implements OnInit {
     this.asciiContent = new Blob(
       [
         `  0                                                                                     \n  ${
-          this.hova
+          this.hovamiznon
         }             ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS          Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000 \n          ${
-          this.zhot
+          this.zhotmiznon
         }     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}     ${this.TotalAmountDay.toString()}0${this.TotalAmountMonth.toString()}${this.TotalAmountYear.toString()}${this.totalAmountTemplate.toString()}NIS          Miznon 0${this.TotalAmountMonth.toString()}/${this.TotalAmountYear.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999`,
       ],
       { type: 'text/plain' }
@@ -94,7 +101,7 @@ export class ReportAsciiComponent implements OnInit {
     link.setAttribute('href', URL.createObjectURL(this.asciiContent));
     link.setAttribute('download', 'MOVEIN.DAT');
     document.body.appendChild(link);
-    link.click();
+    -link.click();
     document.body.removeChild(link);
   }
 
@@ -153,9 +160,9 @@ export class ReportAsciiComponent implements OnInit {
           let allString = checkMyString.myString;
 
           let endString = `  ${
-            this.hova
+            this.mam
           }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \n          ${
-            this.zhot
+            this.zhotPaz
           }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTotal.toString()}NIS           PAZ 0${month.toString()}/${year.toString()}000000000000 \n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
 
           allString += endString;
@@ -223,7 +230,7 @@ export class ReportAsciiComponent implements OnInit {
 
           let allString2 = checkMyString.myString;
           let endString2 = `  ${
-            this.hovaEldan
+            this.mam
           }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \r\n         ${
             this.zhotEldan
           }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           ELN 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
@@ -294,9 +301,9 @@ export class ReportAsciiComponent implements OnInit {
 
           let allString2 = checkMyString.myString;
           let endString2 = `  ${
-            this.hovaEldan
+            this.mam
           }             ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${theTax2_3.toString()}NIS           MAM 0${month.toString()}/${year.toString()}000000000000 \r\n         ${
-            this.zhotEldan
+            this.zhotFreesbe
           }     ${day.toString()}0${month.toString()}${year2digit.toString()}     ${day.toString()}0${month.toString()}${year2digit.toString()}${allFullTtotal.toString()}NIS           FRE 0${month.toString()}/${year.toString()}000000000000 \r\n9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\r\n`;
 
           allString2 += endString2;
