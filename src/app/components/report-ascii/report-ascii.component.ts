@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NotifyService } from 'src/app/services/notify.service';
 import { ReportService } from 'src/app/services/reports.service';
 import * as XLSX from 'xlsx';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-report-ascii',
@@ -60,7 +61,8 @@ export class ReportAsciiComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     public router: Router,
-    private notify: NotifyService
+    private notify: NotifyService,
+    private location: Location
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -74,6 +76,9 @@ export class ReportAsciiComponent implements OnInit {
         nameBox: this.monthInput,
         yaerBox: this.yearInput,
       }));
+  }
+  resetProject() {
+    window.location.reload();
   }
 
   asciiContent: Blob = new Blob(
@@ -252,6 +257,9 @@ export class ReportAsciiComponent implements OnInit {
           document.body.removeChild(link);
         };
         this.selectedFile = null;
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         break;
 
       case 'FREESBE':
@@ -286,10 +294,11 @@ export class ReportAsciiComponent implements OnInit {
           theTotal = Number(theTotal);
           let taxOfTheTotal: any = (theTotal * 0.17).toFixed(2);
           //   theTotal = theTotal - taxOfTheTotal;
-          let theTax2_3: any = checkMyString.tax2_3;
+          let theTax2_3: any = checkMyString.shniShlishTotal;
           console.log('theTax2_3: ', theTax2_3);
           theTax2_3 = theTax2_3.toFixed(2);
           theTax2_3 = theTax2_3.toString().replace(/\./g, '').padStart(12, '0');
+          console.log('theTax2_3: ', theTax2_3);
           theTotal = theTotal.toFixed(2);
           taxOfTheTotal = taxOfTheTotal
             .toString()
@@ -328,180 +337,164 @@ export class ReportAsciiComponent implements OnInit {
     }
   }
 
-  async returnTheStringFREESBE(data: any) {
-    console.log('data in returnTheStringEldan', data);
+  //   async returnTheStringFREESBE(data: any) {
+  //     console.log('data in returnTheStringEldan', data);
 
-    if (!Array.isArray(data)) {
-      throw new Error('data must be an array');
-      console.log('data in eldan', data);
-    }
-    this.lastElementIntheArrayWithTheAllTotal = data.pop();
-    let second = data.pop();
-    console.log('second: ', second);
+  //     if (!Array.isArray(data)) {
+  //       throw new Error('data must be an array');
+  //       console.log('data in eldan', data);
+  //     }
+  //     this.lastElementIntheArrayWithTheAllTotal = data.pop();
+  //     let second = data.pop();
+  //     console.log('second: ', second);
 
-    console.log(
-      'this.lastElementIntheArrayWithTheAllTotal: ',
-      this.lastElementIntheArrayWithTheAllTotal
-    );
+  //     console.log(
+  //       'this.lastElementIntheArrayWithTheAllTotal: ',
+  //       this.lastElementIntheArrayWithTheAllTotal
+  //     );
 
-    //data.splice(-2, 2); // removes the last two elements (4 and 5)
+  //     //data.splice(-2, 2); // removes the last two elements (4 and 5)
 
-    for (let i = 1; i < data.length; i++) {
-      if (data[i][16] === 'פרמיה חודשית') {
-        data[i - 1][19] += data[i][19];
-      }
-    }
-    data = data.filter((subArray) => subArray[16] !== 'פרמיה חודשית');
-    console.log('data after filter: ', data);
+  //     for (let i = 1; i < data.length; i++) {
+  //       if (data[i][16] === 'פרמיה חודשית') {
+  //         data[i - 1][19] += data[i][19];
+  //       }
+  //     }
+  //     data = data.filter((subArray) => subArray[16] !== 'פרמיה חודשית');
+  //     console.log('data after filter: ', data);
 
-    const promises = data.map(async (subArray: any, index: number) => {
-      let hachzakatRehevWithoutTax = subArray[16];
-      console.log('hachzakatRehevWithoutTax: ', hachzakatRehevWithoutTax);
+  //     const promises = data.map(async (subArray: any, index: number) => {
+  //       let hachzakatRehevWithoutTax = subArray[16];
+  //       console.log('hachzakatRehevWithoutTax: ', hachzakatRehevWithoutTax);
 
-      this.hachzakatRehevWithTax = subArray[16] * 1.17;
-      let ShlishTax = this.hachzakatRehevWithTax - hachzakatRehevWithoutTax;
-      ShlishTax = Number(ShlishTax);
-      console.log('ShlishTax: ', ShlishTax);
+  //       this.hachzakatRehevWithTax = subArray[16] * 1.17;
+  //       let ShlishTax = this.hachzakatRehevWithTax - hachzakatRehevWithoutTax;
+  //       ShlishTax = Number(ShlishTax);
+  //       console.log('ShlishTax: ', ShlishTax);
 
-      ShlishTax = ShlishTax / 3;
-      console.log('ShlishTax2: ', ShlishTax);
-      this.hachzakatRehevWithTax = hachzakatRehevWithoutTax + ShlishTax;
+  //       ShlishTax = ShlishTax / 3;
+  //       console.log('ShlishTax2: ', ShlishTax);
+  //       this.hachzakatRehevWithTax = hachzakatRehevWithoutTax + ShlishTax;
 
-      this.hachzakatRehevWithTax = Number(this.hachzakatRehevWithTax);
-      this.hachzakatRehevWithTax = this.hachzakatRehevWithTax.toFixed(2);
-      this.allFullTtotal += Number(this.hachzakatRehevWithTax);
-      console.log('this.allFullTtotal: ', this.allFullTtotal);
+  //       this.hachzakatRehevWithTax = Number(this.hachzakatRehevWithTax);
+  //       this.hachzakatRehevWithTax = this.hachzakatRehevWithTax.toFixed(2);
+  //       this.allFullTtotal += Number(this.hachzakatRehevWithTax);
+  //       console.log('this.allFullTtotal: ', this.allFullTtotal);
 
-      this.hachzakatRehevWithTax = this.hachzakatRehevWithTax
-        .toString()
-        .replace(/\./g, '')
-        .padStart(12, '0');
+  //       this.hachzakatRehevWithTax = this.hachzakatRehevWithTax
+  //         .toString()
+  //         .replace(/\./g, '')
+  //         .padStart(12, '0');
+  //         let hachzakatRehevWithTax = this.hachzakatRehevWithTax;
 
-      let shniShlish: any = (ShlishTax * 2).toFixed(2);
-      shniShlish = Number(shniShlish);
-      this.allFullTtotal += Number(shniShlish);
+  //       let shniShlish: any = (ShlishTax * 2).toFixed(2);
+  //       shniShlish = Number(shniShlish);
+  //       this.allFullTtotal += Number(shniShlish);
 
-      this.Tax_2_3 += shniShlish;
-      this.Tax_2_3 = Number(this.Tax_2_3);
+  //       this.Tax_2_3 += shniShlish;
+  //       this.Tax_2_3 = Number(this.Tax_2_3);
 
-      this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
-        subArray[4]
-      );
+  //       this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
+  //         subArray[4]
+  //       );
 
-      this.acountCarNum = this.acountCarNum[0]
-        ? this.acountCarNum[0].Hesbon
-        : null;
+  //       this.acountCarNum = this.acountCarNum[0]
+  //         ? this.acountCarNum[0].Hesbon
+  //         : null;
 
-      this.hovaAndRishoeiWithTax = subArray[17] + subArray[18];
-      this.hovaAndRishoeiWithTax = Number(this.hovaAndRishoeiWithTax); // add to total sumWithTax
-      //   this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
-      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax.toFixed(2);
-      this.allFullTtotal += Number(this.hovaAndRishoeiWithTax);
+  //       this.hovaAndRishoeiWithTax = subArray[17] + subArray[18];
+  //       this.hovaAndRishoeiWithTax = Number(this.hovaAndRishoeiWithTax); // add to total sumWithTax
+  //       //   this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
+  //       this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax.toFixed(2);
+  //       this.allFullTtotal += Number(this.hovaAndRishoeiWithTax);
 
-      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax
-        .toString()
-        .replace(/\./g, '')
-        .padStart(12, '0');
+  //       this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax
+  //         .toString()
+  //         .replace(/\./g, '')
+  //         .padStart(12, '0');
 
-      this.totalRentWithTax = subArray[15] * 1.17;
-      this.totalRentWithTax = Number(this.totalRentWithTax); // add to total sumWithTax
-      this.totalRentWithTax = this.totalRentWithTax.toFixed(2);
-      this.allFullTtotal += Number(this.totalRentWithTax);
+  //       this.totalRentWithTax = subArray[15] * 1.17;
+  //       this.totalRentWithTax = Number(this.totalRentWithTax); // add to total sumWithTax
+  //       this.totalRentWithTax = this.totalRentWithTax.toFixed(2);
+  //       this.allFullTtotal += Number(this.totalRentWithTax);
 
-      this.totalRentWithTax = this.totalRentWithTax
-        .toString()
-        .replace(/\./g, '')
-        .padStart(12, '0');
+  //       this.totalRentWithTax = this.totalRentWithTax
+  //         .toString()
+  //         .replace(/\./g, '')
+  //         .padStart(12, '0');
 
-      let excelDateValue = subArray[10];
-      const millisecondsPerDay = 86400000;
-      const jan1900To1970 = 25569;
-      let date = new Date(
-        (excelDateValue - jan1900To1970) * millisecondsPerDay
-      );
-      let formattedDate = `${
-        date.getMonth() + 1
-      }/${date.getDate()}/${date.getFullYear()}`;
+  //       let excelDateValue = subArray[10];
+  //       const millisecondsPerDay = 86400000;
+  //       const jan1900To1970 = 25569;
+  //       let date = new Date(
+  //         (excelDateValue - jan1900To1970) * millisecondsPerDay
+  //       );
+  //       let formattedDate = `${
+  //         date.getMonth() + 1
+  //       }/${date.getDate()}/${date.getFullYear()}`;
 
-      console.log(formattedDate); // Output: "2/20/2023"
-      let dateParts = formattedDate.split('/');
-      this.monthFromFile = parseInt(dateParts[0]);
-      this.yearFromFile = parseInt(dateParts[2]);
-      this.dayFromFile = parseInt(dateParts[1]);
-      const currentDate = new Date();
-      this.selectedYear = currentDate.getFullYear().toString();
-      this.selectedMonth = (currentDate.getMonth() + 1).toString();
-      let year2dig = this.yearFromFile % 100;
+  //       console.log(formattedDate); // Output: "2/20/2023"
+  //       let dateParts = formattedDate.split('/');
+  //       this.monthFromFile = parseInt(dateParts[0]);
+  //       this.yearFromFile = parseInt(dateParts[2]);
+  //       this.dayFromFile = parseInt(dateParts[1]);
+  //       const currentDate = new Date();
+  //       this.selectedYear = currentDate.getFullYear().toString();
+  //       this.selectedMonth = (currentDate.getMonth() + 1).toString();
+  //       let year2dig = this.yearFromFile % 100;
 
-      this.myString += `${
-        this.acountCarNum
-      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hachzakatRehevWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
-        this.acountCarNum
-      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
-        this.acountCarNum
-      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n`;
-    });
-    await Promise.all(promises);
+  //       this.myString += `${
+  //         this.acountCarNum
+  //       }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${hachzakatRehevWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
+  //         this.acountCarNum
+  //       }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
+  //         this.acountCarNum
+  //       }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n`;
+  //     });
+  //     await Promise.all(promises);
 
-    return {
-      myString: this.myString,
-      hachzakatRehevWithTax: this.hachzakatRehevWithTax,
-      hovaAndRishoeiWithTax: this.hovaAndRishoeiWithTax,
-      totalSumWithTax: this.totalRentWithTax,
-      dayFromFile: this.dayFromFile,
-      monthFromFile: this.monthFromFile,
-      yearFromFile: this.yearFromFile,
-      lastElementIntheArrayWithTheAllTotal:
-        this.lastElementIntheArrayWithTheAllTotal,
-      tax2_3: this.Tax_2_3,
-      allFullTtotal: this.allFullTtotal,
-    };
-  }
+  //     return {
+  //       myString: this.myString,
+  //       hachzakatRehevWithTax: this.hachzakatRehevWithTax,
+  //       hovaAndRishoeiWithTax: this.hovaAndRishoeiWithTax,
+  //       totalSumWithTax: this.totalRentWithTax,
+  //       dayFromFile: this.dayFromFile,
+  //       monthFromFile: this.monthFromFile,
+  //       yearFromFile: this.yearFromFile,
+  //       lastElementIntheArrayWithTheAllTotal:
+  //         this.lastElementIntheArrayWithTheAllTotal,
+  //       tax2_3: this.Tax_2_3,
+  //       allFullTtotal: this.allFullTtotal,
+  //     };
+  //   }
 
   async returnTheStringEldan(data: any) {
-    console.log('data in returnTheStringEldan', data);
-
     if (!Array.isArray(data)) {
       throw new Error('data must be an array');
       console.log('data in eldan', data);
     }
     this.lastElementIntheArrayWithTheAllTotal = data.pop();
     let second = data.pop();
-    console.log('second: ', second);
-
-    console.log(
-      'this.lastElementIntheArrayWithTheAllTotal: ',
-      this.lastElementIntheArrayWithTheAllTotal
-    );
-
     //data.splice(-2, 2); // removes the last two elements (4 and 5)
-
     for (let i = 1; i < data.length; i++) {
       if (data[i][16] === 'פרמיה חודשית') {
         data[i - 1][15] += data[i][19];
         console.log('data[i - 1][19]: ', data[i - 1][19]);
       }
     }
-    console.log('data after for: ', data);
-
     data = data.filter((subArray) => subArray[16] !== 'פרמיה חודשית');
-
     const promises = data.map(async (subArray: any, index: number) => {
       let hachzakatRehevWithoutTax = subArray[16];
       this.shniShlishTotal += hachzakatRehevWithoutTax * 0.17 * (2 / 3);
-
       this.hachzakatRehevWithTax = subArray[16] + (subArray[16] * 0.17) / 3;
 
       this.hachzakatRehevWithTax = this.hachzakatRehevWithTax.toFixed(2);
-
       this.allFullTtotal += Number(this.hachzakatRehevWithTax);
-
       this.hachzakatRehevWithTax = this.hachzakatRehevWithTax
         .toString()
         .replace(/\./g, '')
         .padStart(12, '0');
 
-      console.log('this.hachzakatRehevWithTax2: ', this.hachzakatRehevWithTax);
       let hachzakatRehevWithTax = this.hachzakatRehevWithTax;
       this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
         subArray[4]
@@ -551,9 +544,6 @@ export class ReportAsciiComponent implements OnInit {
       this.selectedYear = currentDate.getFullYear().toString();
       this.selectedMonth = (currentDate.getMonth() + 1).toString();
       let year2dig = this.yearFromFile % 100;
-      console.log('this.hachzakatRehevWithTax3: ', this.hachzakatRehevWithTax);
-      //   this.myString =
-      //     '  0                                                                                     \r\n';
       this.myString += `${
         this.acountCarNum
       }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${hachzakatRehevWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
@@ -561,6 +551,108 @@ export class ReportAsciiComponent implements OnInit {
       }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
         this.acountCarNum
       }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           ELN 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n`;
+    });
+    await Promise.all(promises);
+
+    return {
+      myString: this.myString,
+      hachzakatRehevWithTax: this.hachzakatRehevWithTax,
+      hovaAndRishoeiWithTax: this.hovaAndRishoeiWithTax,
+      totalSumWithTax: this.totalRentWithTax,
+      dayFromFile: this.dayFromFile,
+      monthFromFile: this.monthFromFile,
+      yearFromFile: this.yearFromFile,
+      lastElementIntheArrayWithTheAllTotal:
+        this.lastElementIntheArrayWithTheAllTotal,
+      tax2_3: this.Tax_2_3,
+      allFullTtotal: this.allFullTtotal,
+      shniShlishTotal: this.shniShlishTotal,
+    };
+  }
+
+  async returnTheStringFREESBE(data: any) {
+    if (!Array.isArray(data)) {
+      throw new Error('data must be an array');
+      console.log('data in eldan', data);
+    }
+    this.lastElementIntheArrayWithTheAllTotal = data.pop();
+    let second = data.pop();
+    //data.splice(-2, 2); // removes the last two elements (4 and 5)
+    for (let i = 1; i < data.length; i++) {
+      if (data[i][16] === 'פרמיה חודשית') {
+        data[i - 1][15] += data[i][19];
+        console.log('data[i - 1][19]: ', data[i - 1][19]);
+      }
+    }
+    data = data.filter((subArray) => subArray[16] !== 'פרמיה חודשית');
+    const promises = data.map(async (subArray: any, index: number) => {
+      let hachzakatRehevWithoutTax = subArray[16];
+      this.shniShlishTotal += hachzakatRehevWithoutTax * 0.17 * (2 / 3);
+      this.hachzakatRehevWithTax = subArray[16] + (subArray[16] * 0.17) / 3;
+
+      this.hachzakatRehevWithTax = this.hachzakatRehevWithTax.toFixed(2);
+      this.allFullTtotal += Number(this.hachzakatRehevWithTax);
+      this.hachzakatRehevWithTax = this.hachzakatRehevWithTax
+        .toString()
+        .replace(/\./g, '')
+        .padStart(12, '0');
+
+      let hachzakatRehevWithTax = this.hachzakatRehevWithTax;
+      this.acountCarNum = await this.reportService.getCarAcountNumByCarNum(
+        subArray[4]
+      );
+
+      this.acountCarNum = this.acountCarNum[0]
+        ? this.acountCarNum[0].Hesbon
+        : null;
+
+      this.hovaAndRishoeiWithTax = subArray[17] + subArray[18];
+      this.hovaAndRishoeiWithTax = Number(this.hovaAndRishoeiWithTax); // add to total sumWithTax
+      //   this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax * 1.17;
+      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax.toFixed(2);
+      this.allFullTtotal += Number(this.hovaAndRishoeiWithTax);
+
+      this.hovaAndRishoeiWithTax = this.hovaAndRishoeiWithTax
+        .toString()
+        .replace(/\./g, '')
+        .padStart(12, '0');
+
+      this.totalRentWithTax = subArray[15] * 1.17;
+      this.totalRentWithTax = Number(this.totalRentWithTax); // add to total sumWithTax
+      this.totalRentWithTax = this.totalRentWithTax.toFixed(2);
+      this.allFullTtotal += Number(this.totalRentWithTax);
+
+      this.totalRentWithTax = this.totalRentWithTax
+        .toString()
+        .replace(/\./g, '')
+        .padStart(12, '0');
+
+      let excelDateValue = subArray[10];
+      const millisecondsPerDay = 86400000;
+      const jan1900To1970 = 25569;
+      let date = new Date(
+        (excelDateValue - jan1900To1970) * millisecondsPerDay
+      );
+      let formattedDate = `${
+        date.getMonth() + 1
+      }/${date.getDate()}/${date.getFullYear()}`;
+
+      console.log(formattedDate); // Output: "2/20/2023"
+      let dateParts = formattedDate.split('/');
+      this.monthFromFile = parseInt(dateParts[0]);
+      this.yearFromFile = parseInt(dateParts[2]);
+      this.dayFromFile = parseInt(dateParts[1]);
+      const currentDate = new Date();
+      this.selectedYear = currentDate.getFullYear().toString();
+      this.selectedMonth = (currentDate.getMonth() + 1).toString();
+      let year2dig = this.yearFromFile % 100;
+      this.myString += `${
+        this.acountCarNum
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${hachzakatRehevWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
+        this.acountCarNum
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.hovaAndRishoeiWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n${
+        this.acountCarNum
+      }             ${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}   21${this.dayFromFile.toString()}0${this.monthFromFile.toString()}${year2dig.toString()}${this.totalRentWithTax.toString()}NIS           FRE 0${this.monthFromFile.toString()}/${this.yearFromFile.toString()}000000000000 \r\n`;
     });
     await Promise.all(promises);
 
